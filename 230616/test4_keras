@@ -1,0 +1,91 @@
+from keras.models import Sequential
+from keras.layers import Dense
+import numpy as np
+
+def SingleLayerTest():
+
+    # Training Set
+    x_train = np.array([[0],[1]])
+    y_train = x_train*2+1
+    # print(x_train)
+    # print(y_train)
+
+    # Test Set
+    x_test = np.array([[2], [3]])
+    y_test = x_test*2 +1
+    # print(x_test)
+    # print(y_test)
+
+    # Model 
+    model = Sequential()
+
+    model.add(Dense(1, input_shape=(1,)))
+    model.summary()
+
+    # Model learning
+    model.compile('SGD', 'mse')
+    model.fit(x_train, y_train, epochs=1000, batch_size=2, verbose=1)
+
+    # Model evaluate
+    model.evaluate(x_test, y_test, batch_size=2)
+
+    # Model predict
+    y_predict = model.predict(x_test, batch_size=2)
+
+    print(f'y_predict = \n{y_predict}\ny_test = \n{y_test}')
+
+def MultiLayerTest():
+
+    x_train = np.array([[0], [1]])
+    y_train = x_train*2+1
+
+    x_test = np.array([[2], [3]])
+    y_test = x_test*2+1
+
+    model = Sequential()
+
+    model.add(Dense(2, input_shape=(1,)))
+    model.add(Dense(1))
+
+    model.summary()
+
+    pre_train_y_predict = model.predict(x_test)
+    print(f'Before Train : \n{pre_train_y_predict}')
+
+    model.compile('SGD', 'mse')
+    hist = model.fit(x_train, y_train, epochs=1000, batch_size = 2, verbose=0)
+
+    y_predict = model.predict(x_test)
+    print(f'After Train : \n{y_predict}')
+
+def LayerTest():
+    x_train = np.array([[2],[3],[4],[5]])
+    y_train = x_train*3
+
+    x_test = np.array([[1],[2],[3],[4]])
+    y_test = x_test*3
+
+    print(x_test)
+    print(y_test)
+
+    model = Sequential()
+
+    model.add(Dense(2, input_shape=(1,)))
+    model.add(Dense(1))
+
+    model.summary()
+
+    pre_train_y_predict = model.predict(x_test)
+    print(f'Before Train : \n{pre_train_y_predict}')
+
+    model.compile('SGD', 'mse')
+    hist = model.fit(x_train, y_train, epochs=1000, batch_size=1, verbose=1)
+
+    y_predict = model.predict(x_test)
+    print(f'After Train : \n{y_predict}')
+
+
+if __name__ =="__main__":
+    #SingleLayerTest()
+    #MultiLayerTest()
+    LayerTest()
